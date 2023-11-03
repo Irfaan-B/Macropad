@@ -1,0 +1,7 @@
+#Datasheets
+Datasheets/
+
+#Kicad files
+Macropad_STM32/Macropad_STM32-backups
+Macropad_STM32/fp-info-cache
+Macropad_STM32/#auto_saved_files#
