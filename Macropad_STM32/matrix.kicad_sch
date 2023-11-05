@@ -4129,10 +4129,10 @@
     (property "Datasheet" "https://cdn-shop.adafruit.com/product-files/2686/SK6812MINI_REV.01-1-2.pdf" (at 43.434 124.587 0)
       (effects (font (size 1.27 1.27)) (justify left top) hide)
     )
+    (pin "1" (uuid b41ff5c5-55bc-419d-b792-3bb9d3642dee))
     (pin "2" (uuid 9f8b512d-e956-4d4c-b904-9ac31d60b39a))
     (pin "3" (uuid bbd7364f-49f7-4021-b929-2052d3539f21))
     (pin "4" (uuid dd4b6c0d-bb52-449b-96d7-581d41a6ef35))
-    (pin "1" (uuid b41ff5c5-55bc-419d-b792-3bb9d3642dee))
     (instances
       (project "Macropad_STM32"
         (path "/1bbb8170-4e2d-4119-974a-402fa0f6f9bf/c387cd87-8e18-4230-a191-2ca743b1ddf6"
