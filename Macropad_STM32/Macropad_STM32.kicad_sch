@@ -4983,6 +4983,30 @@
     )
   )
 
+  (symbol (lib_id "Mechanical:MountingHole") (at 168.656 205.74 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 68532b7a-3c07-4b1c-9de9-581b03aac889)
+    (property "Reference" "H6" (at 172.212 205.105 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "MountingHole" (at 172.212 207.645 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "MountingHole:MountingHole_3.2mm_M3_DIN965" (at 168.656 205.74 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 168.656 205.74 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (instances
+      (project "Macropad_STM32"
+        (path "/1bbb8170-4e2d-4119-974a-402fa0f6f9bf"
+          (reference "H6") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "Device:C_Small") (at 47.752 147.32 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 6b818a9f-f2b5-4002-8d46-dc4a08a75130)
@@ -5357,6 +5381,30 @@
       (project "Macropad_STM32"
         (path "/1bbb8170-4e2d-4119-974a-402fa0f6f9bf"
           (reference "#PWR01") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Mechanical:MountingHole") (at 187.706 198.628 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 980624f0-d37e-43f7-9bb6-8420adfb67db)
+    (property "Reference" "H7" (at 191.262 197.993 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "MountingHole" (at 191.262 200.533 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "MountingHole:MountingHole_3.2mm_M3_DIN965" (at 187.706 198.628 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 187.706 198.628 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (instances
+      (project "Macropad_STM32"
+        (path "/1bbb8170-4e2d-4119-974a-402fa0f6f9bf"
+          (reference "H7") (unit 1)
         )
       )
     )
@@ -6248,6 +6296,30 @@
     )
   )
 
+  (symbol (lib_id "Mechanical:MountingHole") (at 187.706 205.486 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid e57eb688-3abb-4785-b55d-10dbbddf0881)
+    (property "Reference" "H8" (at 191.262 204.851 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "MountingHole" (at 191.262 207.391 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "MountingHole:MountingHole_3.2mm_M3_DIN965" (at 187.706 205.486 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 187.706 205.486 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (instances
+      (project "Macropad_STM32"
+        (path "/1bbb8170-4e2d-4119-974a-402fa0f6f9bf"
+          (reference "H8") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "power:VBUS") (at 23.622 161.036 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid e5faf21f-41f4-4b45-ae8a-a19b590797e1)
@@ -6403,6 +6475,30 @@
     )
   )
 
+  (symbol (lib_id "Mechanical:MountingHole") (at 168.656 198.882 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid f08ef56b-3fa4-41a1-83aa-37a9ef4fda42)
+    (property "Reference" "H5" (at 172.212 198.247 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "MountingHole" (at 172.212 200.787 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "MountingHole:MountingHole_3.2mm_M3_DIN965" (at 168.656 198.882 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 168.656 198.882 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (instances
+      (project "Macropad_STM32"
+        (path "/1bbb8170-4e2d-4119-974a-402fa0f6f9bf"
+          (reference "H5") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "Device:R_Small") (at 275.844 69.342 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid f6d969aa-f0b6-462d-b0cd-c68afb97521f)
@@ -6537,6 +6633,23 @@
     (instances
       (project "Macropad_STM32"
         (path "/1bbb8170-4e2d-4119-974a-402fa0f6f9bf" (page "2"))
+      )
+    )
+  )
+
+  (sheet (at 272.288 137.922) (size 60.706 37.846) (fields_autoplaced)
+    (stroke (width 0.1524) (type solid))
+    (fill (color 0 0 0 0.0000))
+    (uuid c387cd87-8e18-4230-a191-2ca743b1ddf6)
+    (property "Sheetname" "Matrix" (at 272.288 137.2104 0)
+      (effects (font (size 1.27 1.27)) (justify left bottom))
+    )
+    (property "Sheetfile" "matrix.kicad_sch" (at 272.288 176.3526 0)
+      (effects (font (size 1.27 1.27)) (justify left top))
+    )
+    (instances
+      (project "Macropad_STM32"
+        (path "/1bbb8170-4e2d-4119-974a-402fa0f6f9bf" (page "3"))
       )
     )
   )
