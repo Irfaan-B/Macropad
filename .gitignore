@@ -5,3 +5,11 @@ Datasheets/
 Macropad_STM32/Macropad_STM32-backups
 Macropad_STM32/fp-info-cache
 Macropad_STM32/#auto_saved_files#
+
+#Matrix PCB
+Macropad_STM32/MatrixPCB/MatrixPCB-backups
+Macropad_STM32/MatrixPCB/fp-info-cache
+Macropad_STM32/MatrixPCB/MatrixPCB.kicad_prl
+Macropad_STM32/MatrixPCB/MatrixPCB
+Macropad_STM32/MatrixPCB/MatrixPCB.kicad_sch
+Macropad_STM32/MatrixPCB/MatrixPCB1.step
