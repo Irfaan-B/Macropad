@@ -9,11 +9,22 @@ Macropad_STM32/Macropad_STM32.kicad_prl
 Macropad_STM32/_autosave-Macropad_STM32.kicad_pcb
 Macropad_STM32/~Macropad_STM32.kicad_sch.lck
 Macropad_STM32/~_autosave-Macropad_STM32.kicad_pcb.lck
+Macropad_STM32/Macropad_STM32.xml
+Macropad_STM32/PCB_Output/
+Macropad_STM32/USBHUB.kicad_sch
+Macropad_STM32/matrix.kicad_sch
+Macropad_STM32/production/
+Macropad_STM32/Macropad_STM32.csv
+Macropad_STM32/~Macropad_STM32_pcb.lck
+
 
 #Matrix PCB
+Macropad_STM32/MatrixPCB/MatrixPCB.kicad_pcb
+Macropad_STM32/MatrixPCB/MaxtrixPCB1.step
 Macropad_STM32/MatrixPCB/MatrixPCB-backups
 Macropad_STM32/MatrixPCB/fp-info-cache
 Macropad_STM32/MatrixPCB/MatrixPCB.kicad_prl
 Macropad_STM32/MatrixPCB/MatrixPCB
 Macropad_STM32/MatrixPCB/MatrixPCB.kicad_sch
 Macropad_STM32/MatrixPCB/MatrixPCB1.step
+

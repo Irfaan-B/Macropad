@@ -2521,7 +2521,7 @@
           (reference "J7") (unit 1)
         )
         (path "/1bbb8170-4e2d-4119-974a-402fa0f6f9bf/c387cd87-8e18-4230-a191-2ca743b1ddf6"
-          (reference "J12") (unit 1)
+          (reference "POWER2") (unit 1)
         )
       )
     )
@@ -3654,7 +3654,7 @@
   (symbol (lib_id "Hub16-rescue:Rotary_Encoder_Switch-Device") (at 247.65 106.68 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 4eac5407-ca82-4d06-baab-e97cec262ebb)
-    (property "Reference" "SW2" (at 247.65 97.3582 0)
+    (property "Reference" "ENC1" (at 247.65 97.3582 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "EC11 Encoder" (at 247.65 99.6696 0)
@@ -3695,7 +3695,7 @@
     (instances
       (project "Macropad_STM32"
         (path "/1bbb8170-4e2d-4119-974a-402fa0f6f9bf/c387cd87-8e18-4230-a191-2ca743b1ddf6"
-          (reference "SW2") (unit 1)
+          (reference "ENC1") (unit 1)
         )
       )
       (project "Hub16"
@@ -5340,7 +5340,7 @@
   (symbol (lib_id "Hub16-rescue:Rotary_Encoder_Switch-Device") (at 247.65 139.7 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid ba1aefef-cc1b-4294-82b6-f62519fc7b98)
-    (property "Reference" "SW3" (at 247.65 130.3782 0)
+    (property "Reference" "ENC2" (at 247.65 130.3782 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "EC11 Encoder" (at 247.65 132.6896 0)
@@ -5381,7 +5381,7 @@
     (instances
       (project "Macropad_STM32"
         (path "/1bbb8170-4e2d-4119-974a-402fa0f6f9bf/c387cd87-8e18-4230-a191-2ca743b1ddf6"
-          (reference "SW3") (unit 1)
+          (reference "ENC2") (unit 1)
         )
       )
       (project "Hub16"
