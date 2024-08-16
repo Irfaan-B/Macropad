@@ -121,3 +121,9 @@ Macropad_STM32/Software/build/usbd_hid.o
 Macropad_STM32/Software/build/usbd_ioreq.d
 Macropad_STM32/Software/build/usbd_ioreq.lst
 Macropad_STM32/Software/build/usbd_ioreq.o
+.vscode/c_cpp_properties.json
+STM32Make.make
+.vscode/settings.json
+.vscode/launch.json
+openocd.cfg
+.vscode/tasks.json

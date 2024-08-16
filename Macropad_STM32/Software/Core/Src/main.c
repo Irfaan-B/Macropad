@@ -32,6 +32,14 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define NUM_LEDS 12 // Number of WS2812 LEDs
+
+// Define the timing constants (in clock cycles)
+#define T0H  1  // 0.32 µs
+#define T1H  2  // 0.64 µs
+#define T0L  3   // 0.8 µs
+#define T1L  1   // 0.2 µs
+#define TRST 5000    // >80 µs
 
 /* USER CODE END PD */
 
@@ -43,14 +51,20 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+  uint8_t led_data[12][3];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
-
+void delay_cycles(uint32_t cycles);
+void send_bit(uint8_t bit);
+void send_byte(uint8_t byte);
+void send_reset();
+void send_rgb(uint8_t red, uint8_t green, uint8_t blue);
+void send_to_leds(uint8_t (*led_data)[3], uint8_t num_leds);
+void update_leds(uint8_t red, uint8_t green, uint8_t blue, uint8_t led);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -89,13 +103,29 @@ int main(void)
   MX_GPIO_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
-
+  int i = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+      // Send data to 12 LEDs
+	  __disable_irq();
+	  if (i > 12){
+		  i = 0;
+		  for (int k = 0; k <= NUM_LEDS; k++)
+		  {
+			  update_leds(0, 0, 0, k);
+		  }
+	  }
+      send_to_leds(led_data, 12);
+      __enable_irq();
+	  update_leds(50, 0, 50, i);
+	  i++;
+      // Add a delay between updates
+      HAL_Delay(300);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -170,7 +200,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
@@ -188,21 +218,21 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PA3 PA4 PA5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5;
+  /*Configure GPIO pins : PA3 PA4 PA5 PA6 */
+  GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : ROW0_Pin ROW1_Pin */
-  GPIO_InitStruct.Pin = ROW0_Pin|ROW1_Pin;
+  /*Configure GPIO pin : ROW0_Pin */
+  GPIO_InitStruct.Pin = ROW0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(ROW0_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : ROW2_Pin ROW3_Pin */
-  GPIO_InitStruct.Pin = ROW2_Pin|ROW3_Pin;
+  /*Configure GPIO pins : ROW1_Pin ROW2_Pin ROW3_Pin */
+  GPIO_InitStruct.Pin = ROW1_Pin|ROW2_Pin|ROW3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -225,6 +255,76 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void delay_cycles(uint32_t cycles)
+{
+    asm volatile (
+        "1: subs %0, %0, #1\n"
+        "   bne 1b\n"
+        : "=r" (cycles)
+        : "0" (cycles)
+    );
+}
+
+// Function to send a single bit
+void send_bit(uint8_t bit)
+{
+    if (bit)
+    {
+        // Send '1' bit
+        LED_GPIO_Port->BSRR = LED_Pin; // Set the pin high
+        delay_cycles(T1H);
+        LED_GPIO_Port->BRR = LED_Pin;  // Set the pin low
+        delay_cycles(T1L);
+    }
+    else
+    {
+        // Send '0' bit
+        LED_GPIO_Port->BSRR = LED_Pin; // Set the pin high
+        delay_cycles(T0H);
+        LED_GPIO_Port->BRR = LED_Pin;  // Set the pin low
+        delay_cycles(T0L);
+    }
+}
+
+// Function to send a byte
+void send_byte(uint8_t byte)
+{
+    for (int i = 7; i >= 0; i--)
+    {
+        send_bit((byte >> i) & 0x01);
+    }
+}
+
+// Function to send a reset signal
+void send_reset()
+{
+    LED_GPIO_Port->BRR = LED_Pin;  // Set the pin low
+    delay_cycles(TRST);
+}
+
+void send_rgb(uint8_t red, uint8_t green, uint8_t blue)
+{
+    send_byte(green); // Send green byte first
+    send_byte(red);   // Send red byte second
+    send_byte(blue);  // Send blue byte third
+}
+
+void send_to_leds(uint8_t (*led_data)[3], uint8_t num_leds)
+{
+    for (uint8_t i = 0; i < num_leds; i++)
+    {
+        send_rgb(led_data[i][0], led_data[i][1], led_data[i][2]);
+    }
+    send_reset();
+}
+
+void update_leds(uint8_t red, uint8_t green, uint8_t blue, uint8_t led)
+{
+	led_data[led][0] = red;
+	led_data[led][1] = green;
+	led_data[led][2] = blue;
+}
+
 
 /* USER CODE END 4 */
 
