@@ -11,7 +11,8 @@
                 "/usr/include/c++/11",
                 "/usr/lib/gcc/arm-none-eabi/10.3.1/include",
                 "/usr/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
-                "/usr/include/newlib"
+                "/usr/include/newlib",
+                "${workspaceFolder}/Drivers/STM32F1xx_HAL_Driver/Inc"
             ],
             "defines": [
                 "STM32F103xB",
@@ -20,10 +21,8 @@
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-arm",
-            "browse": 
-            {
-                "path":
-                [
+            "browse": {
+                "path": [
                     "${workspaceFolder}/**",
                     "${workspaceFolder}/Middlewares/ST/STM32_USB_Device_Library/Core/Inc/",
                     "${workspaceFolder}/Drivers/CMSIS/Include",

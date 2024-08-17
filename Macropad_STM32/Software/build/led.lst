@@ -1,0 +1,552 @@
+ARM GAS  /tmp/cc95SMcH.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"led.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.delay_ns,"ax",%progbits
+  16              		.align	1
+  17              		.global	delay_ns
+  18              		.arch armv7-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu softvfp
+  24              	delay_ns:
+  25              	.LVL0:
+  26              	.LFB65:
+  27              		.file 1 "Core/Src/led.c"
+   1:Core/Src/led.c **** #include "led.h"
+   2:Core/Src/led.c **** 
+   3:Core/Src/led.c **** typedef struct {
+   4:Core/Src/led.c ****     uint8_t red;
+   5:Core/Src/led.c ****     uint8_t green;
+   6:Core/Src/led.c ****     uint8_t blue;
+   7:Core/Src/led.c **** } LED_Color;
+   8:Core/Src/led.c **** 
+   9:Core/Src/led.c **** LED_Color led_colors[NUM_LEDS];
+  10:Core/Src/led.c **** 
+  11:Core/Src/led.c **** void delay_ns(uint32_t cycles) {
+  28              		.loc 1 11 32 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  12:Core/Src/led.c ****     while (cycles--) {
+  33              		.loc 1 12 5 view .LVU1
+  34              		.loc 1 12 11 is_stmt 0 view .LVU2
+  35 0000 01E0     		b	.L2
+  36              	.LVL1:
+  37              	.L3:
+  13:Core/Src/led.c ****         __NOP();
+  38              		.loc 1 13 9 is_stmt 1 view .LVU3
+  39              		.syntax unified
+  40              	@ 13 "Core/Src/led.c" 1
+  41 0002 00BF     		nop
+  42              	@ 0 "" 2
+  12:Core/Src/led.c ****     while (cycles--) {
+  43              		.loc 1 12 18 is_stmt 0 view .LVU4
+  44              		.thumb
+ARM GAS  /tmp/cc95SMcH.s 			page 2
+
+
+  45              		.syntax unified
+  46 0004 1846     		mov	r0, r3
+  47              	.LVL2:
+  48              	.L2:
+  12:Core/Src/led.c ****     while (cycles--) {
+  49              		.loc 1 12 11 is_stmt 1 view .LVU5
+  12:Core/Src/led.c ****     while (cycles--) {
+  50              		.loc 1 12 18 is_stmt 0 view .LVU6
+  51 0006 431E     		subs	r3, r0, #1
+  52              	.LVL3:
+  12:Core/Src/led.c ****     while (cycles--) {
+  53              		.loc 1 12 11 view .LVU7
+  54 0008 0028     		cmp	r0, #0
+  55 000a FAD1     		bne	.L3
+  14:Core/Src/led.c ****     }
+  15:Core/Src/led.c **** }
+  56              		.loc 1 15 1 view .LVU8
+  57 000c 7047     		bx	lr
+  58              		.cfi_endproc
+  59              	.LFE65:
+  61              		.section	.text.send_bit,"ax",%progbits
+  62              		.align	1
+  63              		.global	send_bit
+  64              		.syntax unified
+  65              		.thumb
+  66              		.thumb_func
+  67              		.fpu softvfp
+  69              	send_bit:
+  70              	.LVL4:
+  71              	.LFB66:
+  16:Core/Src/led.c **** 
+  17:Core/Src/led.c **** void send_bit(uint8_t bit) {
+  72              		.loc 1 17 28 is_stmt 1 view -0
+  73              		.cfi_startproc
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76              		.loc 1 17 28 is_stmt 0 view .LVU10
+  77 0000 38B5     		push	{r3, r4, r5, lr}
+  78              	.LCFI0:
+  79              		.cfi_def_cfa_offset 16
+  80              		.cfi_offset 3, -16
+  81              		.cfi_offset 4, -12
+  82              		.cfi_offset 5, -8
+  83              		.cfi_offset 14, -4
+  18:Core/Src/led.c ****     if (bit) {
+  84              		.loc 1 18 5 is_stmt 1 view .LVU11
+  85              		.loc 1 18 8 is_stmt 0 view .LVU12
+  86 0002 58B1     		cbz	r0, .L5
+  19:Core/Src/led.c ****         // Send '1' code
+  20:Core/Src/led.c ****         GPIOC->BSRR = GPIO_PIN_13; // Set pin high
+  87              		.loc 1 20 9 is_stmt 1 view .LVU13
+  88              		.loc 1 20 21 is_stmt 0 view .LVU14
+  89 0004 0B4C     		ldr	r4, .L8
+  90 0006 4FF40055 		mov	r5, #8192
+  91 000a 2561     		str	r5, [r4, #16]
+  21:Core/Src/led.c ****         delay_ns(3); // High for 500ns - 416ns = 84ns (adjusted to 120ns for safety)
+  92              		.loc 1 21 9 is_stmt 1 view .LVU15
+ARM GAS  /tmp/cc95SMcH.s 			page 3
+
+
+  93 000c 0320     		movs	r0, #3
+  94              	.LVL5:
+  95              		.loc 1 21 9 is_stmt 0 view .LVU16
+  96 000e FFF7FEFF 		bl	delay_ns
+  97              	.LVL6:
+  22:Core/Src/led.c ****         GPIOC->BRR = GPIO_PIN_13; // Set pin low
+  98              		.loc 1 22 9 is_stmt 1 view .LVU17
+  99              		.loc 1 22 20 is_stmt 0 view .LVU18
+ 100 0012 6561     		str	r5, [r4, #20]
+  23:Core/Src/led.c ****         delay_ns(1); // Low for 500ns
+ 101              		.loc 1 23 9 is_stmt 1 view .LVU19
+ 102 0014 0120     		movs	r0, #1
+ 103 0016 FFF7FEFF 		bl	delay_ns
+ 104              	.LVL7:
+ 105              	.L4:
+  24:Core/Src/led.c ****     } else {
+  25:Core/Src/led.c ****         // Send '0' code
+  26:Core/Src/led.c ****         GPIOC->BSRR = GPIO_PIN_13; // Set pin high
+  27:Core/Src/led.c ****         delay_ns(1); // High for 500ns
+  28:Core/Src/led.c ****         GPIOC->BRR = GPIO_PIN_13; // Set pin low
+  29:Core/Src/led.c ****         delay_ns(3); // Low for 800ns
+  30:Core/Src/led.c ****     }
+  31:Core/Src/led.c **** }
+ 106              		.loc 1 31 1 is_stmt 0 view .LVU20
+ 107 001a 38BD     		pop	{r3, r4, r5, pc}
+ 108              	.LVL8:
+ 109              	.L5:
+  26:Core/Src/led.c ****         delay_ns(1); // High for 500ns
+ 110              		.loc 1 26 9 is_stmt 1 view .LVU21
+  26:Core/Src/led.c ****         delay_ns(1); // High for 500ns
+ 111              		.loc 1 26 21 is_stmt 0 view .LVU22
+ 112 001c 054C     		ldr	r4, .L8
+ 113 001e 4FF40055 		mov	r5, #8192
+ 114 0022 2561     		str	r5, [r4, #16]
+  27:Core/Src/led.c ****         GPIOC->BRR = GPIO_PIN_13; // Set pin low
+ 115              		.loc 1 27 9 is_stmt 1 view .LVU23
+ 116 0024 0120     		movs	r0, #1
+ 117              	.LVL9:
+  27:Core/Src/led.c ****         GPIOC->BRR = GPIO_PIN_13; // Set pin low
+ 118              		.loc 1 27 9 is_stmt 0 view .LVU24
+ 119 0026 FFF7FEFF 		bl	delay_ns
+ 120              	.LVL10:
+  28:Core/Src/led.c ****         delay_ns(3); // Low for 800ns
+ 121              		.loc 1 28 9 is_stmt 1 view .LVU25
+  28:Core/Src/led.c ****         delay_ns(3); // Low for 800ns
+ 122              		.loc 1 28 20 is_stmt 0 view .LVU26
+ 123 002a 6561     		str	r5, [r4, #20]
+  29:Core/Src/led.c ****     }
+ 124              		.loc 1 29 9 is_stmt 1 view .LVU27
+ 125 002c 0320     		movs	r0, #3
+ 126 002e FFF7FEFF 		bl	delay_ns
+ 127              	.LVL11:
+ 128              		.loc 1 31 1 is_stmt 0 view .LVU28
+ 129 0032 F2E7     		b	.L4
+ 130              	.L9:
+ 131              		.align	2
+ 132              	.L8:
+ARM GAS  /tmp/cc95SMcH.s 			page 4
+
+
+ 133 0034 00100140 		.word	1073811456
+ 134              		.cfi_endproc
+ 135              	.LFE66:
+ 137              		.section	.text.send_reset,"ax",%progbits
+ 138              		.align	1
+ 139              		.global	send_reset
+ 140              		.syntax unified
+ 141              		.thumb
+ 142              		.thumb_func
+ 143              		.fpu softvfp
+ 145              	send_reset:
+ 146              	.LFB67:
+  32:Core/Src/led.c **** 
+  33:Core/Src/led.c **** void send_reset() {
+ 147              		.loc 1 33 19 is_stmt 1 view -0
+ 148              		.cfi_startproc
+ 149              		@ args = 0, pretend = 0, frame = 0
+ 150              		@ frame_needed = 0, uses_anonymous_args = 0
+ 151 0000 08B5     		push	{r3, lr}
+ 152              	.LCFI1:
+ 153              		.cfi_def_cfa_offset 8
+ 154              		.cfi_offset 3, -8
+ 155              		.cfi_offset 14, -4
+  34:Core/Src/led.c ****     GPIOC->BRR = GPIO_PIN_13; // Set pin low
+ 156              		.loc 1 34 5 view .LVU30
+ 157              		.loc 1 34 16 is_stmt 0 view .LVU31
+ 158 0002 044B     		ldr	r3, .L12
+ 159 0004 4FF40052 		mov	r2, #8192
+ 160 0008 5A61     		str	r2, [r3, #20]
+  35:Core/Src/led.c ****     delay_ns(80000); // Low for min 80us
+ 161              		.loc 1 35 5 is_stmt 1 view .LVU32
+ 162 000a 0348     		ldr	r0, .L12+4
+ 163 000c FFF7FEFF 		bl	delay_ns
+ 164              	.LVL12:
+  36:Core/Src/led.c **** }
+ 165              		.loc 1 36 1 is_stmt 0 view .LVU33
+ 166 0010 08BD     		pop	{r3, pc}
+ 167              	.L13:
+ 168 0012 00BF     		.align	2
+ 169              	.L12:
+ 170 0014 00100140 		.word	1073811456
+ 171 0018 80380100 		.word	80000
+ 172              		.cfi_endproc
+ 173              	.LFE67:
+ 175              		.section	.text.send_color,"ax",%progbits
+ 176              		.align	1
+ 177              		.global	send_color
+ 178              		.syntax unified
+ 179              		.thumb
+ 180              		.thumb_func
+ 181              		.fpu softvfp
+ 183              	send_color:
+ 184              	.LVL13:
+ 185              	.LFB68:
+  37:Core/Src/led.c **** 
+  38:Core/Src/led.c **** void send_color(uint8_t red, uint8_t green, uint8_t blue) {
+ 186              		.loc 1 38 59 is_stmt 1 view -0
+ARM GAS  /tmp/cc95SMcH.s 			page 5
+
+
+ 187              		.cfi_startproc
+ 188              		@ args = 0, pretend = 0, frame = 0
+ 189              		@ frame_needed = 0, uses_anonymous_args = 0
+ 190              		.loc 1 38 59 is_stmt 0 view .LVU35
+ 191 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 192              	.LCFI2:
+ 193              		.cfi_def_cfa_offset 24
+ 194              		.cfi_offset 3, -24
+ 195              		.cfi_offset 4, -20
+ 196              		.cfi_offset 5, -16
+ 197              		.cfi_offset 6, -12
+ 198              		.cfi_offset 7, -8
+ 199              		.cfi_offset 14, -4
+ 200 0002 0646     		mov	r6, r0
+ 201 0004 0F46     		mov	r7, r1
+ 202 0006 1546     		mov	r5, r2
+  39:Core/Src/led.c ****     for (int i = 7; i >= 0; i--) {
+ 203              		.loc 1 39 5 is_stmt 1 view .LVU36
+ 204              	.LBB2:
+ 205              		.loc 1 39 10 view .LVU37
+ 206              	.LVL14:
+ 207              		.loc 1 39 14 is_stmt 0 view .LVU38
+ 208 0008 0724     		movs	r4, #7
+ 209              		.loc 1 39 5 view .LVU39
+ 210 000a 06E0     		b	.L15
+ 211              	.LVL15:
+ 212              	.L16:
+  40:Core/Src/led.c ****         send_bit((green >> i) & 1);
+ 213              		.loc 1 40 9 is_stmt 1 discriminator 3 view .LVU40
+ 214              		.loc 1 40 25 is_stmt 0 discriminator 3 view .LVU41
+ 215 000c 47FA04F0 		asr	r0, r7, r4
+ 216              		.loc 1 40 9 discriminator 3 view .LVU42
+ 217 0010 00F00100 		and	r0, r0, #1
+ 218 0014 FFF7FEFF 		bl	send_bit
+ 219              	.LVL16:
+  39:Core/Src/led.c ****     for (int i = 7; i >= 0; i--) {
+ 220              		.loc 1 39 29 is_stmt 1 discriminator 3 view .LVU43
+  39:Core/Src/led.c ****     for (int i = 7; i >= 0; i--) {
+ 221              		.loc 1 39 30 is_stmt 0 discriminator 3 view .LVU44
+ 222 0018 013C     		subs	r4, r4, #1
+ 223              	.LVL17:
+ 224              	.L15:
+  39:Core/Src/led.c ****     for (int i = 7; i >= 0; i--) {
+ 225              		.loc 1 39 21 is_stmt 1 discriminator 1 view .LVU45
+  39:Core/Src/led.c ****     for (int i = 7; i >= 0; i--) {
+ 226              		.loc 1 39 5 is_stmt 0 discriminator 1 view .LVU46
+ 227 001a 002C     		cmp	r4, #0
+ 228 001c F6DA     		bge	.L16
+ 229              	.LBE2:
+ 230              	.LBB3:
+  41:Core/Src/led.c ****     }
+  42:Core/Src/led.c ****     for (int i = 7; i >= 0; i--) {
+ 231              		.loc 1 42 14 view .LVU47
+ 232 001e 0724     		movs	r4, #7
+ 233              	.LVL18:
+ 234              		.loc 1 42 14 view .LVU48
+ 235 0020 06E0     		b	.L17
+ARM GAS  /tmp/cc95SMcH.s 			page 6
+
+
+ 236              	.LVL19:
+ 237              	.L18:
+  43:Core/Src/led.c ****         send_bit((red >> i) & 1);
+ 238              		.loc 1 43 9 is_stmt 1 discriminator 3 view .LVU49
+ 239              		.loc 1 43 23 is_stmt 0 discriminator 3 view .LVU50
+ 240 0022 46FA04F0 		asr	r0, r6, r4
+ 241              		.loc 1 43 9 discriminator 3 view .LVU51
+ 242 0026 00F00100 		and	r0, r0, #1
+ 243 002a FFF7FEFF 		bl	send_bit
+ 244              	.LVL20:
+  42:Core/Src/led.c ****         send_bit((red >> i) & 1);
+ 245              		.loc 1 42 29 is_stmt 1 discriminator 3 view .LVU52
+  42:Core/Src/led.c ****         send_bit((red >> i) & 1);
+ 246              		.loc 1 42 30 is_stmt 0 discriminator 3 view .LVU53
+ 247 002e 013C     		subs	r4, r4, #1
+ 248              	.LVL21:
+ 249              	.L17:
+  42:Core/Src/led.c ****         send_bit((red >> i) & 1);
+ 250              		.loc 1 42 21 is_stmt 1 discriminator 1 view .LVU54
+  42:Core/Src/led.c ****         send_bit((red >> i) & 1);
+ 251              		.loc 1 42 5 is_stmt 0 discriminator 1 view .LVU55
+ 252 0030 002C     		cmp	r4, #0
+ 253 0032 F6DA     		bge	.L18
+ 254              	.LBE3:
+ 255              	.LBB4:
+  44:Core/Src/led.c ****     }
+  45:Core/Src/led.c ****     for (int i = 7; i >= 0; i--) {
+ 256              		.loc 1 45 14 view .LVU56
+ 257 0034 0724     		movs	r4, #7
+ 258              	.LVL22:
+ 259              		.loc 1 45 14 view .LVU57
+ 260 0036 06E0     		b	.L19
+ 261              	.LVL23:
+ 262              	.L20:
+  46:Core/Src/led.c ****         send_bit((blue >> i) & 1);
+ 263              		.loc 1 46 9 is_stmt 1 discriminator 3 view .LVU58
+ 264              		.loc 1 46 24 is_stmt 0 discriminator 3 view .LVU59
+ 265 0038 45FA04F0 		asr	r0, r5, r4
+ 266              		.loc 1 46 9 discriminator 3 view .LVU60
+ 267 003c 00F00100 		and	r0, r0, #1
+ 268 0040 FFF7FEFF 		bl	send_bit
+ 269              	.LVL24:
+  45:Core/Src/led.c ****         send_bit((blue >> i) & 1);
+ 270              		.loc 1 45 29 is_stmt 1 discriminator 3 view .LVU61
+  45:Core/Src/led.c ****         send_bit((blue >> i) & 1);
+ 271              		.loc 1 45 30 is_stmt 0 discriminator 3 view .LVU62
+ 272 0044 013C     		subs	r4, r4, #1
+ 273              	.LVL25:
+ 274              	.L19:
+  45:Core/Src/led.c ****         send_bit((blue >> i) & 1);
+ 275              		.loc 1 45 21 is_stmt 1 discriminator 1 view .LVU63
+  45:Core/Src/led.c ****         send_bit((blue >> i) & 1);
+ 276              		.loc 1 45 5 is_stmt 0 discriminator 1 view .LVU64
+ 277 0046 002C     		cmp	r4, #0
+ 278 0048 F6DA     		bge	.L20
+ 279              	.LBE4:
+  47:Core/Src/led.c ****     }
+ARM GAS  /tmp/cc95SMcH.s 			page 7
+
+
+  48:Core/Src/led.c **** }
+ 280              		.loc 1 48 1 view .LVU65
+ 281 004a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 282              		.loc 1 48 1 view .LVU66
+ 283              		.cfi_endproc
+ 284              	.LFE68:
+ 286              		.section	.text.set_led_color,"ax",%progbits
+ 287              		.align	1
+ 288              		.global	set_led_color
+ 289              		.syntax unified
+ 290              		.thumb
+ 291              		.thumb_func
+ 292              		.fpu softvfp
+ 294              	set_led_color:
+ 295              	.LVL26:
+ 296              	.LFB69:
+  49:Core/Src/led.c **** 
+  50:Core/Src/led.c **** void set_led_color(uint8_t index, uint8_t red, uint8_t green, uint8_t blue) {
+ 297              		.loc 1 50 77 is_stmt 1 view -0
+ 298              		.cfi_startproc
+ 299              		@ args = 0, pretend = 0, frame = 0
+ 300              		@ frame_needed = 0, uses_anonymous_args = 0
+ 301              		@ link register save eliminated.
+  51:Core/Src/led.c ****     if (index < NUM_LEDS) {
+ 302              		.loc 1 51 5 view .LVU68
+ 303              		.loc 1 51 8 is_stmt 0 view .LVU69
+ 304 0000 0B28     		cmp	r0, #11
+ 305 0002 0CD8     		bhi	.L25
+  50:Core/Src/led.c ****     if (index < NUM_LEDS) {
+ 306              		.loc 1 50 77 view .LVU70
+ 307 0004 10B4     		push	{r4}
+ 308              	.LCFI3:
+ 309              		.cfi_def_cfa_offset 4
+ 310              		.cfi_offset 4, -4
+  52:Core/Src/led.c ****         led_colors[index].red = red;
+ 311              		.loc 1 52 9 is_stmt 1 view .LVU71
+ 312              		.loc 1 52 31 is_stmt 0 view .LVU72
+ 313 0006 064C     		ldr	r4, .L28
+ 314 0008 00EB4000 		add	r0, r0, r0, lsl #1
+ 315              	.LVL27:
+ 316              		.loc 1 52 31 view .LVU73
+ 317 000c 04EB000C 		add	ip, r4, r0
+ 318 0010 2154     		strb	r1, [r4, r0]
+  53:Core/Src/led.c ****         led_colors[index].green = green;
+ 319              		.loc 1 53 9 is_stmt 1 view .LVU74
+ 320              		.loc 1 53 33 is_stmt 0 view .LVU75
+ 321 0012 8CF80120 		strb	r2, [ip, #1]
+  54:Core/Src/led.c ****         led_colors[index].blue = blue;
+ 322              		.loc 1 54 9 is_stmt 1 view .LVU76
+ 323              		.loc 1 54 32 is_stmt 0 view .LVU77
+ 324 0016 8CF80230 		strb	r3, [ip, #2]
+  55:Core/Src/led.c ****     }
+  56:Core/Src/led.c **** }
+ 325              		.loc 1 56 1 view .LVU78
+ 326 001a 10BC     		pop	{r4}
+ 327              	.LCFI4:
+ 328              		.cfi_restore 4
+ARM GAS  /tmp/cc95SMcH.s 			page 8
+
+
+ 329              		.cfi_def_cfa_offset 0
+ 330 001c 7047     		bx	lr
+ 331              	.LVL28:
+ 332              	.L25:
+ 333              		.loc 1 56 1 view .LVU79
+ 334 001e 7047     		bx	lr
+ 335              	.L29:
+ 336              		.align	2
+ 337              	.L28:
+ 338 0020 00000000 		.word	.LANCHOR0
+ 339              		.cfi_endproc
+ 340              	.LFE69:
+ 342              		.section	.text.update_leds,"ax",%progbits
+ 343              		.align	1
+ 344              		.global	update_leds
+ 345              		.syntax unified
+ 346              		.thumb
+ 347              		.thumb_func
+ 348              		.fpu softvfp
+ 350              	update_leds:
+ 351              	.LFB70:
+  57:Core/Src/led.c **** 
+  58:Core/Src/led.c **** void update_leds(void) {
+ 352              		.loc 1 58 24 is_stmt 1 view -0
+ 353              		.cfi_startproc
+ 354              		@ args = 0, pretend = 0, frame = 0
+ 355              		@ frame_needed = 0, uses_anonymous_args = 0
+ 356 0000 10B5     		push	{r4, lr}
+ 357              	.LCFI5:
+ 358              		.cfi_def_cfa_offset 8
+ 359              		.cfi_offset 4, -8
+ 360              		.cfi_offset 14, -4
+  59:Core/Src/led.c ****     for (uint8_t i = 0; i < NUM_LEDS; i++) {
+ 361              		.loc 1 59 5 view .LVU81
+ 362              	.LBB5:
+ 363              		.loc 1 59 10 view .LVU82
+ 364              	.LVL29:
+ 365              		.loc 1 59 18 is_stmt 0 view .LVU83
+ 366 0002 0024     		movs	r4, #0
+ 367              		.loc 1 59 5 view .LVU84
+ 368 0004 0AE0     		b	.L31
+ 369              	.LVL30:
+ 370              	.L32:
+  60:Core/Src/led.c ****         send_color(led_colors[i].red, led_colors[i].green, led_colors[i].blue);
+ 371              		.loc 1 60 9 is_stmt 1 discriminator 3 view .LVU85
+ 372 0006 0848     		ldr	r0, .L34
+ 373 0008 04EB4403 		add	r3, r4, r4, lsl #1
+ 374 000c C118     		adds	r1, r0, r3
+ 375 000e 8A78     		ldrb	r2, [r1, #2]	@ zero_extendqisi2
+ 376 0010 4978     		ldrb	r1, [r1, #1]	@ zero_extendqisi2
+ 377 0012 C05C     		ldrb	r0, [r0, r3]	@ zero_extendqisi2
+ 378 0014 FFF7FEFF 		bl	send_color
+ 379              	.LVL31:
+  59:Core/Src/led.c ****     for (uint8_t i = 0; i < NUM_LEDS; i++) {
+ 380              		.loc 1 59 39 discriminator 3 view .LVU86
+  59:Core/Src/led.c ****     for (uint8_t i = 0; i < NUM_LEDS; i++) {
+ 381              		.loc 1 59 40 is_stmt 0 discriminator 3 view .LVU87
+ARM GAS  /tmp/cc95SMcH.s 			page 9
+
+
+ 382 0018 0134     		adds	r4, r4, #1
+ 383              	.LVL32:
+  59:Core/Src/led.c ****     for (uint8_t i = 0; i < NUM_LEDS; i++) {
+ 384              		.loc 1 59 40 discriminator 3 view .LVU88
+ 385 001a E4B2     		uxtb	r4, r4
+ 386              	.LVL33:
+ 387              	.L31:
+  59:Core/Src/led.c ****     for (uint8_t i = 0; i < NUM_LEDS; i++) {
+ 388              		.loc 1 59 25 is_stmt 1 discriminator 1 view .LVU89
+  59:Core/Src/led.c ****     for (uint8_t i = 0; i < NUM_LEDS; i++) {
+ 389              		.loc 1 59 5 is_stmt 0 discriminator 1 view .LVU90
+ 390 001c 0B2C     		cmp	r4, #11
+ 391 001e F2D9     		bls	.L32
+ 392              	.LBE5:
+  61:Core/Src/led.c ****     }
+  62:Core/Src/led.c ****     send_reset();
+ 393              		.loc 1 62 5 is_stmt 1 view .LVU91
+ 394 0020 FFF7FEFF 		bl	send_reset
+ 395              	.LVL34:
+  63:Core/Src/led.c **** }...
+ 396              		.loc 1 63 1 is_stmt 0 view .LVU92
+ 397 0024 10BD     		pop	{r4, pc}
+ 398              	.LVL35:
+ 399              	.L35:
+ 400              		.loc 1 63 1 view .LVU93
+ 401 0026 00BF     		.align	2
+ 402              	.L34:
+ 403 0028 00000000 		.word	.LANCHOR0
+ 404              		.cfi_endproc
+ 405              	.LFE70:
+ 407              		.global	led_colors
+ 408              		.section	.bss.led_colors,"aw",%nobits
+ 409              		.align	2
+ 410              		.set	.LANCHOR0,. + 0
+ 413              	led_colors:
+ 414 0000 00000000 		.space	36
+ 414      00000000 
+ 414      00000000 
+ 414      00000000 
+ 414      00000000 
+ 415              		.text
+ 416              	.Letext0:
+ 417              		.file 2 "/usr/lib/gcc/arm-none-eabi/10.3.1/include/stdint.h"
+ 418              		.file 3 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ARM GAS  /tmp/cc95SMcH.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 led.c
+     /tmp/cc95SMcH.s:16     .text.delay_ns:0000000000000000 $t
+     /tmp/cc95SMcH.s:24     .text.delay_ns:0000000000000000 delay_ns
+     /tmp/cc95SMcH.s:62     .text.send_bit:0000000000000000 $t
+     /tmp/cc95SMcH.s:69     .text.send_bit:0000000000000000 send_bit
+     /tmp/cc95SMcH.s:133    .text.send_bit:0000000000000034 $d
+     /tmp/cc95SMcH.s:138    .text.send_reset:0000000000000000 $t
+     /tmp/cc95SMcH.s:145    .text.send_reset:0000000000000000 send_reset
+     /tmp/cc95SMcH.s:170    .text.send_reset:0000000000000014 $d
+     /tmp/cc95SMcH.s:176    .text.send_color:0000000000000000 $t
+     /tmp/cc95SMcH.s:183    .text.send_color:0000000000000000 send_color
+     /tmp/cc95SMcH.s:287    .text.set_led_color:0000000000000000 $t
+     /tmp/cc95SMcH.s:294    .text.set_led_color:0000000000000000 set_led_color
+     /tmp/cc95SMcH.s:338    .text.set_led_color:0000000000000020 $d
+     /tmp/cc95SMcH.s:343    .text.update_leds:0000000000000000 $t
+     /tmp/cc95SMcH.s:350    .text.update_leds:0000000000000000 update_leds
+     /tmp/cc95SMcH.s:403    .text.update_leds:0000000000000028 $d
+     /tmp/cc95SMcH.s:413    .bss.led_colors:0000000000000000 led_colors
+     /tmp/cc95SMcH.s:409    .bss.led_colors:0000000000000000 $d
+
+NO UNDEFINED SYMBOLS

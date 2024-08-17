@@ -1,24 +1,7 @@
-/* USER CODE BEGIN Header */
-/**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2024 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
-/* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "usb_device.h"
+#include "led.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -32,11 +15,10 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define NUM_LEDS 12 // Number of WS2812 LEDs
 
 // Define the timing constants (in clock cycles)
 #define T0H  1  // 0.32 µs
-#define T1H  2  // 0.64 µs
+#define T1H  3  // 0.64 µs
 #define T0L  3   // 0.8 µs
 #define T1L  1   // 0.2 µs
 #define TRST 5000    // >80 µs
@@ -51,24 +33,31 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-  uint8_t led_data[NUM_LEDS][3];
+uint16_t led_data[NUM_LEDS][3]; // Assuming 24 bits per LED
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
-void send_bit(uint8_t bit);
-void send_byte(uint8_t byte);
-void send_reset();
-void send_rgb(uint8_t red, uint8_t green, uint8_t blue);
-void send_to_leds(uint8_t (*led_data)[3], uint8_t num_leds);
-void update_leds(uint8_t red, uint8_t green, uint8_t blue, uint8_t led);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void cycle_colors(void) {
+    static uint8_t color_index = 0;
+    uint8_t colors[3][3] = {
+        {255, 0, 0},   // Red
+        {0, 255, 0},   // Green
+        {0, 0, 255}    // Blue
+    };
 
+    for (uint8_t i = 0; i < NUM_LEDS; i++) {
+        set_led_color(i, colors[color_index][0], colors[color_index][1], colors[color_index][2]);
+    }
+
+    color_index = (color_index + 1) % 3;
+}
 /* USER CODE END 0 */
 
 /**
@@ -77,64 +66,52 @@ void update_leds(uint8_t red, uint8_t green, uint8_t blue, uint8_t led);
   */
 int main(void)
 {
+    /* USER CODE BEGIN 1 */
+    __set_CONTROL(0);
+    __ISB();
 
-  /* USER CODE BEGIN 1 */
+    /* USER CODE END 1 */
 
-  /* USER CODE END 1 */
+    /* MCU Configuration--------------------------------------------------------*/
 
-  /* MCU Configuration--------------------------------------------------------*/
+    /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+    HAL_Init();
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+    /* USER CODE BEGIN Init */
 
-  /* USER CODE BEGIN Init */
+    /* USER CODE END Init */
 
-  /* USER CODE END Init */
+    /* Configure the system clock */
+    SystemClock_Config();
 
-  /* Configure the system clock */
-  SystemClock_Config();
+    /* USER CODE BEGIN SysInit */
 
-  /* USER CODE BEGIN SysInit */
+    /* USER CODE END SysInit */
 
-  /* USER CODE END SysInit */
+    /* Initialize all configured peripherals */
+    MX_GPIO_Init();
+    MX_USB_DEVICE_Init();
+    /* USER CODE BEGIN 2 */
+    for (uint8_t i = 0; i < NUM_LEDS; i++) 
+    {
+      set_led_color(i, 255, 0, 0); // Set all LEDs to red
+    }
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_USB_DEVICE_Init();
-  /* USER CODE BEGIN 2 */
-  int i = 0;
-  for (int k = 0; k <= NUM_LEDS; k++)
-  {
-    update_leds(50, 50, 50, k);
-  }
-  send_to_leds(led_data, NUM_LEDS);
-  /* USER CODE END 2 */
+    /* USER CODE END 2 */
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-
-      // Send data to 12 LEDs
-	  __disable_irq();
-	  if (i > NUM_LEDS){
-		  i = 0;
-		  for (int k = 0; k <= NUM_LEDS; k++)
-		  {
-			  update_leds(0, 0, 0, k);
-		  }
-	  }
-      send_to_leds(led_data, 12);
+    /* Infinite loop */
+    /* USER CODE BEGIN WHILE */
+    while (1)
+    {
+      __disable_irq();
+      cycle_colors(); // Cycle through colors
+      update_leds(); // Update all LEDs
       __enable_irq();
-	  update_leds(50, 0, 50, i);
-	  i++;
-      // Add a delay between updates
-      HAL_Delay(300);
+      HAL_Delay(100);
     /* USER CODE END WHILE */
-
+    }
     /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
+    /* USER CODE END 3 */
 }
 
 /**
@@ -213,7 +190,7 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = LED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PA0 PA1 PA2 */
@@ -259,75 +236,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void delay_cycles(uint32_t cycles)
-{
-    asm volatile (
-        "1: subs %0, %0, #1\n"
-        "   bne 1b\n"
-        : "=r" (cycles)
-        : "0" (cycles)
-    );
-}
 
-// Function to send a single bit
-void send_bit(uint8_t bit)
-{
-    if (bit)
-    {
-        // Send '1' bit
-        LED_GPIO_Port->BSRR = LED_Pin; // Set the pin high
-        delay_cycles(T1H);
-        LED_GPIO_Port->BRR = LED_Pin;  // Set the pin low
-        delay_cycles(T1L);
-    }
-    else
-    {
-        // Send '0' bit
-        LED_GPIO_Port->BSRR = LED_Pin; // Set the pin high
-        delay_cycles(T0H);
-        LED_GPIO_Port->BRR = LED_Pin;  // Set the pin low
-        delay_cycles(T0L);
-    }
-}
-
-// Function to send a byte
-void send_byte(uint8_t byte)
-{
-    for (int i = 7; i >= 0; i--)
-    {
-        send_bit((byte >> i) & 0x01);
-    }
-}
-
-// Function to send a reset signal
-void send_reset()
-{
-    LED_GPIO_Port->BRR = LED_Pin;  // Set the pin low
-    delay_cycles(TRST);
-}
-
-void send_rgb(uint8_t red, uint8_t green, uint8_t blue)
-{
-    send_byte(green); // Send green byte first
-    send_byte(red);   // Send red byte second
-    send_byte(blue);  // Send blue byte third
-}
-
-void send_to_leds(uint8_t (*led_data)[3], uint8_t num_leds)
-{
-    for (uint8_t i = 0; i < num_leds; i++)
-    {
-        send_rgb(led_data[i][0], led_data[i][1], led_data[i][2]);
-    }
-    send_reset();
-}
-
-void update_leds(uint8_t red, uint8_t green, uint8_t blue, uint8_t led)
-{
-	led_data[led][0] = red;
-	led_data[led][1] = green;
-	led_data[led][2] = blue;
-}
 /* USER CODE END 4 */
 
 /**
