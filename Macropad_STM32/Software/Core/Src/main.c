@@ -107,7 +107,7 @@ int main(void)
       cycle_colors(); // Cycle through colors
       update_leds(); // Update all LEDs
       __enable_irq();
-      HAL_Delay(100);
+      HAL_Delay(1000);
     /* USER CODE END WHILE */
     }
     /* USER CODE BEGIN 3 */

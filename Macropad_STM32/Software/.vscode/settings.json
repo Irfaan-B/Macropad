@@ -7,5 +7,7 @@
         "usbd_def.h": "c",
         "usbd_conf.h": "c",
         "stdio.h": "c"
-    }
+    },
+    "cortex-debug.gdbPath": "/usr/bin/arm-none-eabi-gdb",
+    "cortex-debug.stutilPath" : "/usr/local/bin/stutil"
 }
