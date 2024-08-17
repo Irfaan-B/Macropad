@@ -1,0 +1,43 @@
+{
+    "configurations": [
+        {
+            "name": "STM32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/Middlewares/ST/STM32_USB_Device_Library/Core/Inc/",
+                "${workspaceFolder}/Drivers/CMSIS/Include",
+                "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32F1xx/Include",
+                "/usr/include",
+                "/usr/include/c++/11",
+                "/usr/lib/gcc/arm-none-eabi/10.3.1/include",
+                "/usr/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
+                "/usr/include/newlib"
+            ],
+            "defines": [
+                "STM32F103xB",
+                "USE_HAL_DRIVER"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-arm",
+            "browse": 
+            {
+                "path":
+                [
+                    "${workspaceFolder}/**",
+                    "${workspaceFolder}/Middlewares/ST/STM32_USB_Device_Library/Core/Inc/",
+                    "${workspaceFolder}/Drivers/CMSIS/Include",
+                    "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32F1xx/Include",
+                    "/usr/include",
+                    "/usr/include/c++/11",
+                    "/usr/lib/gcc/arm-none-eabi/10.3.1/include",
+                    "/usr/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
+                    "/usr/include/newlib"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": "${workspaceRoot}/.vscode/browse"
+            }
+        }
+    ],
+    "version": 4
+}

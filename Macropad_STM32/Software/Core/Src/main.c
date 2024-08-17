@@ -51,14 +51,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-  uint8_t led_data[12][3];
+  uint8_t led_data[NUM_LEDS][3];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
-void delay_cycles(uint32_t cycles);
 void send_bit(uint8_t bit);
 void send_byte(uint8_t byte);
 void send_reset();
@@ -104,6 +103,11 @@ int main(void)
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
   int i = 0;
+  for (int k = 0; k <= NUM_LEDS; k++)
+  {
+    update_leds(50, 50, 50, k);
+  }
+  send_to_leds(led_data, NUM_LEDS);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -113,7 +117,7 @@ int main(void)
 
       // Send data to 12 LEDs
 	  __disable_irq();
-	  if (i > 12){
+	  if (i > NUM_LEDS){
 		  i = 0;
 		  for (int k = 0; k <= NUM_LEDS; k++)
 		  {
@@ -200,7 +204,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
@@ -218,21 +222,21 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PA3 PA4 PA5 PA6 */
-  GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6;
+  /*Configure GPIO pins : PA3 PA4 PA5 */
+  GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : ROW0_Pin */
-  GPIO_InitStruct.Pin = ROW0_Pin;
+  /*Configure GPIO pins : ROW0_Pin ROW1_Pin */
+  GPIO_InitStruct.Pin = ROW0_Pin|ROW1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(ROW0_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : ROW1_Pin ROW2_Pin ROW3_Pin */
-  GPIO_InitStruct.Pin = ROW1_Pin|ROW2_Pin|ROW3_Pin;
+  /*Configure GPIO pins : ROW2_Pin ROW3_Pin */
+  GPIO_InitStruct.Pin = ROW2_Pin|ROW3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -324,8 +328,6 @@ void update_leds(uint8_t red, uint8_t green, uint8_t blue, uint8_t led)
 	led_data[led][1] = green;
 	led_data[led][2] = blue;
 }
-
-
 /* USER CODE END 4 */
 
 /**
