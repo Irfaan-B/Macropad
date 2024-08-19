@@ -2,6 +2,7 @@
 #include "main.h"
 #include "usb_device.h"
 #include "led.h"
+#include "keypad.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -97,17 +98,26 @@ int main(void)
       set_led_color(i, 255, 0, 0); // Set all LEDs to red
     }
 
+    char key;
+
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while (1)
     {
-      __disable_irq();
-      cycle_colors(); // Cycle through colors
-      update_leds(); // Update all LEDs
-      __enable_irq();
-      HAL_Delay(1000);
+      key = Keypad_Scan();
+
+      if (key != '\0')
+      {
+        Keypad_SendKeyViaUSB(key);
+        HAL_Delay(150);
+      }
+      // __disable_irq();
+      // cycle_colors(); // Cycle through colors
+      // update_leds(); // Update all LEDs
+      // __enable_irq();
+      // HAL_Delay(1000);
     /* USER CODE END WHILE */
     }
     /* USER CODE BEGIN 3 */
@@ -199,21 +209,22 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PA3 PA4 PA5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5;
+  /*Configure GPIO pins : PA3 PA4 PA5 PA6 */
+  GPIO_InitStruct.Pin = COL3_Pin|COL2_Pin|COL1_Pin|COL0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_WritePin(GPIOA, COL3_Pin | COL2_Pin | COL1_Pin | COL0_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pins : ROW0_Pin ROW1_Pin */
-  GPIO_InitStruct.Pin = ROW0_Pin|ROW1_Pin;
+  GPIO_InitStruct.Pin = ROW0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : ROW2_Pin ROW3_Pin */
-  GPIO_InitStruct.Pin = ROW2_Pin|ROW3_Pin;
+  GPIO_InitStruct.Pin = ROW1_Pin|ROW2_Pin|ROW3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);

@@ -127,3 +127,9 @@ STM32Make.make
 .vscode/launch.json
 openocd.cfg
 .vscode/tasks.json
+Macropad_STM32/Software/build/keypad.d
+Macropad_STM32/Software/build/keypad.lst
+Macropad_STM32/Software/build/keypad.o
+Macropad_STM32/Software/build/led.lst
+Macropad_STM32/Software/build/
+

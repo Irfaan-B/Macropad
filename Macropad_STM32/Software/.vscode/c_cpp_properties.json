@@ -12,7 +12,10 @@
                 "/usr/lib/gcc/arm-none-eabi/10.3.1/include",
                 "/usr/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
                 "/usr/include/newlib",
-                "${workspaceFolder}/Drivers/STM32F1xx_HAL_Driver/Inc"
+                "${workspaceFolder}/Drivers/STM32F1xx_HAL_Driver/Inc",
+                "${workspaceFolder}/Middlewares/ST/STM32_USB_Device_Library/Class/HID/Inc",
+                "${workspaceFolder}/USB_DEVICE/App",
+                "${workspaceFolder}/USB_DEVICE/Target"
             ],
             "defines": [
                 "STM32F103xB",
@@ -31,7 +34,10 @@
                     "/usr/include/c++/11",
                     "/usr/lib/gcc/arm-none-eabi/10.3.1/include",
                     "/usr/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
-                    "/usr/include/newlib"
+                    "/usr/include/newlib",
+                    "${workspaceFolder}/Middlewares/ST/STM32_USB_Device_Library/Class/HID/Inc",
+                    "${workspaceFolder}/USB_DEVICE/App",
+                    "${workspaceFolder}/USB_DEVICE/Target"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": "${workspaceRoot}/.vscode/browse"
